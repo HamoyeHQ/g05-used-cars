@@ -18,6 +18,7 @@ This data is scraped every few months, it contains most all relevant information
 * To generate a preprocessed dataset that can be used for ML modelling.
 * To build a ML model that can predict the price of used cars in USA.
 * To build a ML workflow pipeline for this project.
+* To build a web interactive interface for end user inferences.
 
 
 # Introduction
