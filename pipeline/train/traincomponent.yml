@@ -1,0 +1,34 @@
+name: Used Cars Training Job Component
+
+description: Training Job
+
+inputs:
+- {name: Job Dir,                   type: String,                    description: Output GCS Job Directory}
+- {name: Training File Path,        type: GCSPath,                   description: Input training GCS path}
+- {name: Validation File Path,      type: GCSPath,                   description: Input validation GCS path}
+- {name: N Estimators,              type: Integer,                   description: Number of estimators}
+- {name: Min Samples Split,         type: Integer,                   description: Minimum number of sample split}
+- {name: Min Samples Leaf,          type: Integer,                   description: Minimum number of sample leaf}
+- {name: Max Features,              type: String,                    description: Maximum Features}
+- {name: Max Depth,                 type: Integer,                   description: Maximum Depth of tree}
+- {name: Hypertune,                 type: Boolean,  default: False,  description: Checks Hyperparameter tuning}
+
+
+outputs:
+- {name: Job Dir,           type: GCSPath,   description: Output GCS Job Directory}
+
+implementation:
+    container:
+        image: gcr.io/hamoye-296618/sklearn-usedcars-image:latest
+        command: [python, train.py]
+        args: [
+        --training-file-path,      {inputValue: Training File Path},
+        --validation-file-path,    {inputValue: Validation File Path},
+        --n-estimators,            {inputValue: N Estimators},
+        --min-samples-split,       {inputValue: Min Samples Split},
+        --min-samples-leaf,        {inputValue: Min Samples Leaf},
+        --max-features,            {inputValue: Max Features},
+        --max-depth,               {inputValue: Max Depth},
+        --hypertune,               {inputValue: Hypertune},
+        --job_dir_output_path,     {outputPath: Job Dir}
+        ]
