@@ -8,7 +8,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.base import BaseEstimator, TransformerMixin
 import pickle
+import logging
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s %(message)s",
@@ -45,27 +47,32 @@ def parse_arguments():
                         )
     
     parser.add_argument('--n-estimators',
-                        type=float,
+                        type=int,
+                        default=300,
                         help="Test set path"
                         )
     
     parser.add_argument('--min-samples-split',
                         type=int,
+                        default=2,
                         help="hyperparameter"
                         )
     
     parser.add_argument('--min-samples-leaf',
                         type=int,
+                        default=2,
                         help="Thyperparameter"
                         )
     
     parser.add_argument('--max-features',
                         type=str,
+                        default='auto',
                         help="hyperparameter"
                         )
     
     parser.add_argument('--max-depth',
                         type=int,
+                        default=10,
                         help="hyperparameter"
                         )
     
@@ -75,28 +82,36 @@ def parse_arguments():
 
     return args
 
+        
 
 def main():
     args = parse_arguments()
     
     train = pd.read_csv(args.training_file_path)
     validation = pd.read_csv(args.validation_file_path)
-    to_drop = ['id', 'year', 'latitude', 'longitude']
+    to_drop = ['id', 'year', 'latitude', 'longitude', 'model']
     
     
     
     train.drop(columns=to_drop, inplace=True)
+    print("train columns: ", train.columns)
+    validation.drop(columns=to_drop, inplace=True)
     train = train.dropna()
+    print("train head\n", train.head())
+    validation = validation.dropna()
+    print("validation columns: ", validation.columns)
+    print("validation head\n", validation.head())
     
-    numeric_features = ('odometer',  'car_age')
-    le_categorical_features = ('region', 'manufacturer', 'model', 'condition', 'cylinders',
-                            'fuel', 'title_status', 'transmission', 'drive', 'type',
+    
+    numeric_features = ('odometer',  'cylinders', 'price')
+    le_categorical_features = ('region', 'manufacturer', 'condition',
+                            'fuel', 'title_status', 'transmission', 'drive', 'car_type',
                             'paint_color', 'state')
     
     preprocessor = ColumnTransformer(
         transformers=[
-            ('StandardScaling', StandardScaler(), numeric_features),
-            ('LabelEncoding', LabelEncoder(), categorical_features),
+            ('StandardScaling', StandardScaler(), numeric_features[0:-1]),
+            ('LabelEncoding', OneHotEncoder(), le_categorical_features),
         ]
     )
     
@@ -107,23 +122,30 @@ def main():
     
     
     num_features_type_map = {feature: 'float64' for feature in numeric_features}
+    print("feature map\n", num_features_type_map)
+    
     train = train.astype(num_features_type_map)
     
     X_train = train.drop('price', axis=1)
-    y_train = train('price')
+    y_train = train['price']
+    
+    X_validation = validation.drop('price', axis=1)
+    y_validation = validation['price']
+    
     
     pipeline.set_params(
         regressor__n_estimators=args.n_estimators,
-        regressor__mean_samples_split=args.mean_samples_split,
-        regressor__mean_samples_leaf=args.mean_samples_leaf,
-        max_features=args.max_features,
-        max_depth=args.max_depth,
+        regressor__min_samples_split=args.min_samples_split,
+        regressor__min_samples_leaf=args.min_samples_leaf,
+        regressor__max_features=args.max_features,
+        regressor__max_depth=args.max_depth,
         
     )
     pipeline.fit(X_train, y_train)
     
-    accuracy = pipeline.score(X_validation, y_validation)
-    print('Model Accuracy: {}'.format(accuracy))
+    score = pipeline.score(X_validation, y_validation)
+    logging.info('score={}'.format(score))
+    print('score={}'.format(score))
     
     if not args.hypertune:
         model_filename = 'model.pkl'

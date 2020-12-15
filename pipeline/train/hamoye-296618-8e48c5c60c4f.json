@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "hamoye-296618",
+  "private_key_id": "8e48c5c60c4f359493b8bad07a9f36a39ff5d254",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC5lWRfPZjNGBt4\nAPadYiBIrlpxrtfjhz22AfJk9OOdgh5kOdnaecYChoNuVoYksYs7eGnRznm7aRUN\nsGnCx+T2QiwUV0CkB1jKIWznOniG5x+Enp5w2TiJ+jqg6jCbAQewEMr6jtEAbVt8\n6oVWVBtecSaPdQZ5IIftefxDPTpRN54c7Bbhuy8WSVp/CRCALJB7oGBul9MQjZFI\nwBmEDRdJYMgSAmubIMoEohg23TNvsuAWsKmWQmy+1jc5opyqmqSazt5CflgARQ32\nSOJdMNKPPHZA17c9ISgePJn+Mdj6CFx0qtoUVf0c56WOJ2GKB8hwLBcR4jS25vXJ\nX3/GWW5tAgMBAAECggEACyt3MZZLApkfWh8wuLNFvyojTnFYFB05NSGz3aixpHLG\n8oBa4N/wb4l6EqOJil7XQvqR3+td/04pUrwZ+Xu/h6Te81B3FwhMK0pMvDQUOgZi\nKsDDR4aDdSaG7dV6nHG47TtthBwhbzWlyoRxBwuj5BDKYdsIyzSOidgMO13Ni0LD\n96ynkeQ0yhsThmEhJFPPihd59WUF2SJPCayJ+NvTAbNcN4dFs5Dc1yKtuJaM2bWt\n2Qqoye7AsWd5V3ZxUeTg0z3628WaEOMMqrWuaJKnK12wOsfmosDGwV+PY73QrBiJ\ntRB5hT93CPI4VTF64rQL4usHP/V4BoQ5ryYAcu48nwKBgQDcNmI1a+d2mDo4mRdY\nHLkZzQ9THNHxspzxRvtC6Y7AgceN5F/q9guLKYrj+/DqCVQCh3woHlmlYNX9Dc9Z\nHogX+LX+iX/e1XO1Kb5gqiQV54BPZxLmdSXz7+BVlR2VQJ6HuYRrfLqAXL2ZtzSh\nLY4ALNZHMUm05imD7z5EF6hLqwKBgQDXvlMnWuhphU3h+V80vZnUFH3nMuGsqFaS\nktlWXePBNwJGKN2DvPZTl3aNWotcoEKIXPi+ToAFbzBNc2Rc7xC3yMIQHz9RxfzD\nBjcJdGqydvBj9Ns2LZ8DG0qpgYA7bDuqxCjT634BDlpQaaKxCGbLBgrPAIM2guAn\nSiLRHsNWRwKBgHdy9HCf2EznI+WhfR0pb2pEZgSiRGtDhIgIBbD0+Z8IhpM8Bp9v\n2TEiVpl2BuccKjq4/SrR07S2QzzhqdBglFfUa/vm37qitAHX49GRWMOc8GehtInX\nj7+zJU+m9AYKqDNc+SxI2u1X4OypiN3I1RbZO14gqSd8FZbgRjkvT/XDAoGBAJgd\nGYQmFLhRxRgPO5F0HYHq8NqShYu3JVMzNwouKOeSYYgWSBkaopNNt8jyjlBArqh2\n5OtJbfpm6yewtJLR/HeYlTvIzFxbvFvFhgikjJZIRjYz7lvEztjh5UKejEtZhLhi\nlmbVI4KbHBKWaJ9pzRBYskZBlkJZBLKvEt1fU1sBAoGBAI/a6LcpcIXR0dF0mAqu\nkwnOJ5NO64vr5DNKC7tFDVfI37RK9zGe0J0ZPrWAiEKAMrnxn1bMkC2gtIp/RXkb\niQJHExC+wmfJ/IU7mJz1/+RDU3DiZD0gcOIL2ynQD/DIfFb3x4uOuAGuuIJXwgMg\nOqTtdmmUq933g7/1/KQXAec4\n-----END PRIVATE KEY-----\n",
+  "client_email": "used-cars-sa@hamoye-296618.iam.gserviceaccount.com",
+  "client_id": "101964017940060030409",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/used-cars-sa%40hamoye-296618.iam.gserviceaccount.com"
+}
