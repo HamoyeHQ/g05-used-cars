@@ -7,9 +7,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 firebase-debug.log*
-
+hamoye-296618-8e48c5c60c4f.json
 # Firebase cache
 .firebase/
+
+__pycache__
 
 # Firebase config
 
