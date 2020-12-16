@@ -10,6 +10,7 @@ RUN mkdir -p /usr/local/gcloud \
 
 # Adding the package path to local
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+ENV GOOGLE_APPLICATION_CREDENTIALS=hamoye-296618-8e48c5c60c4f.json
 
 WORKDIR /opt
 ADD requirements.txt .
@@ -18,4 +19,4 @@ RUN pip install -r requirements.txt
 ADD . .
 
 ENTRYPOINT [ "python" ]
-CMD ["train.py"]
+CMD ["model.py"]
