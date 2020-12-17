@@ -19,8 +19,8 @@ outputs:
 
 implementation:
     container:
-        image: gcr.io/hamoye-296618/sklearn-usedcars-image:latest
-        command: [python, train.py]
+        image: gcr.io/hamoye-296618/sklearn-usedcars-extratrees:latest
+        command: [python, model.py]
         args: [
         --training-file-path,      {inputValue: Training File Path},
         --validation-file-path,    {inputValue: Validation File Path},
