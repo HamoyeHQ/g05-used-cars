@@ -1,0 +1,23 @@
+name: Used Cars Training Job Component
+
+description: Training Job
+
+inputs:
+- {name: GCS Path,                  type: String,   description: Output GCS path}
+- {name: Training File Path,        type: GCSPath,  description: Input training GCS path}
+- {name: Validation File Path,      type: GCSPath,  description: Input validation GCS path}
+- {name: Hypertune,                 type: Boolean,  description: Checks Hyperparameter tuning}
+- {name: Hyperparameters,           type: String,   description: Hyperparameters for model}
+
+
+implementation:
+    container:
+        image: gcr.io/hamoye-296618/sklearn-usedcars-image:latest
+        command: [python, train.py]
+        args: [
+        --gcs-path,                {inputValue: GCS Path},
+        --training-file-path,      {inputValue: Training File Path},
+        --validation-file-path,    {inputValue: Validation File Path},
+        --hypertune,               {inputValue: Hypertune},
+        --hyperparameters,         {inputValue: Hyperparameters}
+        ]
