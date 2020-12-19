@@ -27,6 +27,7 @@ def usedcars_model_training(
     import sklearn
     from sklearn.preprocessing import OneHotEncoder, StandardScaler, OrdinalEncoder
     from sklearn.pipeline import Pipeline
+    from sklearn.impute import SimpleImputer
     from sklearn.compose import ColumnTransformer
     from sklearn.linear_model import LinearRegression
     from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
@@ -34,15 +35,11 @@ def usedcars_model_training(
     from google.cloud import storage
     import logging
 
-    def model_pipeline():
-        numeric_features = ['odometer']
-
-        # categorical_onehot_features = ['drive', 'fuel']
-        categorical_labelenc_features = ['region', 'manufacturer', 'cylinders', 'size', 'condition', 
-                                         'title_status','transmission', 'type', 'paint_color', 'state', 'drive', 'fuel']
+    def model_pipeline(numeric_features, categorical_labelenc_features):
 
 
         numeric_transformer = Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy="constant", fill_value=0)),
             ('scaler', StandardScaler())
         ])
 
@@ -70,10 +67,19 @@ def usedcars_model_training(
 
         return pipeline
     
-    pipeline = model_pipeline()
+    
+    
+    numeric_features = [1, 5]
+    categorical_labelenc_features = [0, 2, 3, 4, 6, 7, 8, 9, 10, 11]
+    pipeline = model_pipeline(numeric_features, categorical_labelenc_features)
     
     train = pd.read_csv(training_file_path)
     validation = pd.read_csv(validation_file_path)
+    
+    train = pd.concat([train, validation])
+    
+#     num_features_map = {feature: 'float64' for feature in train.columns[numeric_features]}
+#     train = train.astype(num_features_map)
     
     pipeline.set_params(
         regressor__n_estimators=int(n_estimators),
@@ -105,21 +111,12 @@ def usedcars_model_training(
                     (train.odometer > upper_bound)]
 
     train = train.drop(outliers.index)
-    print("======================================>\n", train.iloc[3, :].values)
+    print("======================================>")
+    print(list(train.iloc[3, :].values))
     X = train.drop('price', axis=1)
     y = train['price']
     pipeline.fit(X, y)
     
-    X = validation.drop('price', axis=1)
-    y = validation['price']
-
-    y_pred = pipeline.predict(X)
-
-    r2_score = round(sklearn.metrics.r2_score(y, y_pred), 3)
-    rmse = round(np.sqrt(sklearn.metrics.mean_squared_error(y, y_pred)), 3)
-
-    print('r2_score={}'.format(r2_score))
-    print('rmse={}'.format(rmse))
 
     subprocess.run(["rm", "-r", "jobdir"])
 
@@ -245,28 +242,39 @@ def deploy_model(
              'create',
              f'{model_id}',
              '--region=us-central1',
-             ])
+             ], stdout=sys.stdout)
 
         print("model created")
     except subprocess.CalledProcessError:
         print("Model already exists. Moving on ...")
     
-    print("creating version")
-    
-    subprocess.check_call(
-        ["gcloud",
-         'ai-platform',
-         'versions',
-         'create',
-         f'{version_id}',
-         f'--model={model_id}',
-         f'--origin={model_uri}',
-         f'--runtime-version={runtime_version}',
-         f'--framework=scikit-learn',
-         f'--python-version={python_version}',
-         '--region=us-central1',
-         ])
-    
-    print("Version created...")
-    print("Deployment complete.")
+    print("creating version {}".format(version_id))
+    try:
+
+        subprocess.check_call(
+            ["gcloud",
+             'ai-platform',
+             'versions',
+             'create',
+             f'{version_id}',
+             f'--model={model_id}',
+             f'--origin={model_uri}',
+             f'--runtime-version={runtime_version}',
+             f'--framework=scikit-learn',
+             f'--python-version={python_version}',
+             '--region=us-central1',
+             '--machine-type=n1-standard-4'
+             ], stdout=sys.stdout)
+
+        print("Version created...")
+        print("Deployment complete.")
+        sys.exit(0)
+        return 0
+        
+    except TypeError:
+        sys.exit(0)
+        
+    except subprocess.CalledProcessError:
+        sys.exit(0)
+      
     
